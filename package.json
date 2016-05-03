@@ -1,0 +1,20 @@
+{
+  "name": "turing-machine-visualizer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "browserify index.js -o dist/bundle.js -d && http-server -o -c-1",
+    "watch-js": "watchify index.js -o dist/bundle.js -d"
+  },
+  "author": "Ali Essam",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^3.3.6",
+    "jquery": "^2.2.3",
+    "require": "^2.4.20",
+    "turing-lang": "0.0.1",
+    "underscore": "^1.8.3",
+    "vis": "^4.16.1"
+  }
+}
