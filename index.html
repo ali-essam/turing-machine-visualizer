@@ -8,8 +8,11 @@
     <link href="../index.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
-    <div class="">
-      <textarea id="txtTrans" name="name" rows="8" cols="40">
+    <div style="text-align:center">
+      <h1>Standard Turing Machine Visualizer</h1>
+      <form>
+        <div>
+          <textarea id="txtTrans" name="name" class="form-control" rows="8" cols="40">
 Q0 0 => Q1 1 RIGHT
 Q0 1 => HALT 1 RIGHT # ends the program
 
@@ -17,19 +20,24 @@ Q1 0 => Q2 0 RIGHT
 Q1 1 => Q1 1 RIGHT
 
 Q2 0 =>	Q2 1 LEFT
-Q2 1 => Q0 1 LEFT
-      </textarea>
+Q2 1 => Q0 1 LEFT</textarea>
+        </div>
+      </form>
+      <div>
+        <input type="button" id="btnParse" value="Parse" class="btn btn-submit"/>
+        <input type="button" id="btnUpdateTape" value="Update Tape" class="btn btn-submit btnCtrl disabled"/>
+        <input type="button" id="btnRun" value="Run" class="btn btn-success btnCtrl disabled"/>
+        <input type="button" id="btnStep" value="Step" class="btn btn-warning btnCtrl disabled"/>
+        <input type="button" id="btnFinish" value="Finish" class="btn btn-danger btnCtrl disabled"/>
+      </div>
+      <div id="test"></div>
+      <div id="mynetwork"></div>
     </div>
-    <div class="">
-      <input type="button" id="btnRun" name="name" value="Run" class="btn btn-submit"/>
-    </div>
-    <div id="mynetwork"></div>
-
 
     <!-- Scripts -->
-    <script src="../node_modules/underscore/underscore-min.js"></script>
-    <script src="../node_modules/jquery/dist/jquery.min.js"></script>
-    <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="../dist/bundle.js"></script>
+    <!-- <script src="./node_modules/underscore/underscore-min.js"></script>
+    <script src="./node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script> -->
+    <script src="./dist/bundle.js"></script>
   </body>
 </html>
