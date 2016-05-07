@@ -8,53 +8,80 @@ var visdata = {
     nodes: new vis.DataSet(),
     edges: new vis.DataSet()
 };
+
 var network = new vis.Network($('#mynetwork')[0], visdata,
   {
     layout: {hierarchical:{direction: 'LR'}},
-    edges: {labelHighlightBold: false}
+    edges: {labelHighlightBold: false},
+    nodes: {color:{highlight:{border:'green'}}}
   });
+
 var machine = tl.parse('');
 
 var TAPE_LEFT = -10;
 var TAPE_Right = 10;
 
-tp = new arrvis.ArrayVisualizer($('#test'), 20, 0);
+tp = new arrvis.ArrayVisualizer($('#test'), 21, 0);
 
+
+tp.onClick(function(i){
+  var val = prompt(i + TAPE_LEFT);
+  if(val) {
+    machine.tape.write(i + TAPE_LEFT, val);
+  }
+  UpdateTape();
+});
 
 function getSortedTape(machine, from, to) {
   var mp = machine.tape.readBulk(from,to);
-  var keys = _.sortBy(_.keys(mp), function (key) {
+  keys = _.map(_.keys(mp), function(item) {
+    return parseInt(item);
+  });
+  var keys = _.sortBy(keys, function (key) {
     return key;
   });
   return _.map(keys, function(k) { return mp[k] + "" });
 }
 
 $('#btnParse').click(function () {
+  tp.selectElementAt(10);
   machine = tl.parse(getTxtTransText());
   console.log(machine);
 
   setGraphVis(getMachineGraph(machine), visdata);
-
+  UpdateTape();
   enableControls();
 
   machine.on('step', function(inf) {
     network.selectNodes([machine.currentState], false);
-    var arr = getSortedTape(machine, TAPE_LEFT, TAPE_Right);
-    tp.updateArray(arr);
+    UpdateTape();
+    dvLog("Wrote: " + inf.writtenSymbol + " Moved To State " + inf.state);
+    console.log(inf);
     tp.selectElementAt(inf.headPosition + TAPE_LEFT);
   });
 
   machine.on('error', function(e) {
+    dvLog(e.error);
     console.error(e);
   });
 
 });
+
+function dvLog(txt) {
+  $('#logdv').append('<div class="dvrow">' + txt + '</div>')
+}
+
+function UpdateTape() {
+  var arr = getSortedTape(machine, TAPE_LEFT, TAPE_Right);
+  tp.updateArray(arr);
+}
 
 $('#btnRun').click(function() {
   machine.run(1500);
 });
 
 $('#btnStep').click(function() {
+  machine.running = true;
   machine.step();
 });
 
@@ -72,12 +99,14 @@ function setGraphVis(graph, visdata) {
 
 function getMachineGraph(machine) {
   var transitionTable = machine.transitionFunction.transitionTable;
-
+  console.log(transitionTable);;
   var stateNames = _.uniq(_.flatten(_.map(_.values(transitionTable), function(val1) {
     return _.map(_.values(val1), function(val2) {
       return val2.state;
     });
   })));
+  stateNames = _.union(stateNames, _.keys(transitionTable));
+
   var nodes = _.map(stateNames, function(val) {
     return _.object([['id', val], ['label', val]]);
   });
@@ -103,11 +132,9 @@ var transOldVal = "";
 $("#txtTrans").on("change keyup paste", function() {
     var currentVal = $(this).val();
     if(currentVal == transOldVal) {
-        return; //check to prevent multiple simultaneous triggers
+        return;
     }
-
     transOldVal = currentVal;
-    //action to be performed on textarea changed
     disableControls();
 });
 

@@ -25,13 +25,15 @@ Q2 1 => Q0 1 LEFT</textarea>
       </form>
       <div>
         <input type="button" id="btnParse" value="Parse" class="btn btn-submit"/>
-        <input type="button" id="btnUpdateTape" value="Update Tape" class="btn btn-submit btnCtrl disabled"/>
         <input type="button" id="btnRun" value="Run" class="btn btn-success btnCtrl disabled"/>
         <input type="button" id="btnStep" value="Step" class="btn btn-warning btnCtrl disabled"/>
         <input type="button" id="btnFinish" value="Finish" class="btn btn-danger btnCtrl disabled"/>
       </div>
       <div id="test"></div>
-      <div id="mynetwork"></div>
+      <div class="row">
+        <div class="col-md-8" id="mynetwork"></div>
+        <span class="col-md-3" id="logdv"></span>
+      </div>
     </div>
 
     <!-- Scripts -->
