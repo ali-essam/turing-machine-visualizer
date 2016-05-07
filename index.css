@@ -1,5 +1,20 @@
 #mynetwork {
-  width: 600px;
+
   height: 400px;
   border: 1px solid lightgray;
+}
+
+#logdv {
+  overflow-y: auto;
+  height: 400px;
+  border: 1px solid lightgray;
+}
+
+#txtTrans {
+  width: 60%;
+  margin: auto;
+}
+
+.dvrow {
+  text-align: left;
 }
