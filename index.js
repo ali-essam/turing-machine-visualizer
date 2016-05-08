@@ -21,8 +21,7 @@ var machine = tl.parse('');
 var TAPE_LEFT = -10;
 var TAPE_Right = 10;
 
-tp = new arrvis.ArrayVisualizer($('#test'), 21, 0);
-
+tp = new arrvis.ArrayVisualizer($('#test'), TAPE_Right - TAPE_LEFT + 1, 0);
 
 tp.onClick(function(i){
   var val = prompt(i + TAPE_LEFT);
@@ -32,19 +31,8 @@ tp.onClick(function(i){
   UpdateTape();
 });
 
-function getSortedTape(machine, from, to) {
-  var mp = machine.tape.readBulk(from,to);
-  keys = _.map(_.keys(mp), function(item) {
-    return parseInt(item);
-  });
-  var keys = _.sortBy(keys, function (key) {
-    return key;
-  });
-  return _.map(keys, function(k) { return mp[k] + "" });
-}
-
 $('#btnParse').click(function () {
-  tp.selectElementAt(10);
+  tp.selectElementAt(-TAPE_LEFT);
   machine = tl.parse(getTxtTransText());
   console.log(machine);
 
@@ -67,15 +55,6 @@ $('#btnParse').click(function () {
 
 });
 
-function dvLog(txt) {
-  $('#logdv').append('<div class="dvrow">' + txt + '</div>')
-}
-
-function UpdateTape() {
-  var arr = getSortedTape(machine, TAPE_LEFT, TAPE_Right);
-  tp.updateArray(arr);
-}
-
 $('#btnRun').click(function() {
   machine.run(1500);
 });
@@ -88,6 +67,17 @@ $('#btnStep').click(function() {
 $('#btnFinish').click(function() {
   machine.run(0);
 });
+
+function getSortedTape(machine, from, to) {
+  var mp = machine.tape.readBulk(from,to);
+  keys = _.map(_.keys(mp), function(item) {
+    return parseInt(item);
+  });
+  var keys = _.sortBy(keys, function (key) {
+    return key;
+  });
+  return _.map(keys, function(k) { return mp[k] + "" });
+}
 
 function setGraphVis(graph, visdata) {
   visdata.nodes.clear();
@@ -137,6 +127,16 @@ $("#txtTrans").on("change keyup paste", function() {
     transOldVal = currentVal;
     disableControls();
 });
+
+
+function dvLog(txt) {
+  $('#logdv').append('<div class="dvrow">' + txt + '</div>')
+}
+
+function UpdateTape() {
+  var arr = getSortedTape(machine, TAPE_LEFT, TAPE_Right);
+  tp.updateArray(arr);
+}
 
 function getTxtTransText() {
    return $('#txtTrans').val();
