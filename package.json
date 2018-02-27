@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "bootstrap": "^3.3.6",
-    "jquery": "^2.2.3",
+    "jquery": "^3.0.0",
     "require": "^2.4.20",
     "turing-lang": "0.0.1",
     "underscore": "^1.8.3",
